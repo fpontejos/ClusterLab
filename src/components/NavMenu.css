@@ -1,0 +1,46 @@
+#clustering-list {
+    padding: 20px 0;
+  }
+  
+  #clustering-list ion-list-header {
+    font-size: 22px;
+    font-weight: 600;
+    min-height: 20px;
+  }
+  
+  #clustering-list ion-note {
+    font-size: 12px;
+    margin-left: 18px;
+    color: var(--ion-color-medium);
+  }
+  
+  #clustering-list ion-item {
+    --padding-start: 10px;
+    --padding-end: 10px;
+    border-radius: 4px;
+    margin: 4px 10px;
+  }
+  
+  #clustering-list ion-item.selected {
+    --background: rgba(var(--ion-color-primary-rgb), 0.14);
+  }
+  
+  #clustering-list ion-item.selected ion-icon {
+    color: var(--ion-color-primary);
+  }
+  
+  #clustering-list ion-item ion-icon {
+    color: var(--ion-color-step-400, #92949c);
+  }
+  
+  #clustering-list ion-item ion-label h2 {
+    font-weight: 600;
+    margin: 0;
+    color: var(--ion-color-primary);
+  }
+  
+  #clustering-list ion-item ion-label p {
+    font-size: 12px;
+    color: var(--ion-color-medium);
+    margin: 2px 0 0 0;
+  }
