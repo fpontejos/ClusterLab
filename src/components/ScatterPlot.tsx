@@ -89,12 +89,12 @@ const ScatterPlot: React.FC<ScatterPlotProps> = ({
       font: { size: 16 }
     },
     xaxis: {
-      title: 'X',
+      title: { text: 'X' },
       showgrid: true,
       zeroline: true
     },
     yaxis: {
-      title: 'Y',
+      title: { text: 'Y' },
       showgrid: true,
       zeroline: true
     },

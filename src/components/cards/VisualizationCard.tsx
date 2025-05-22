@@ -13,7 +13,6 @@ interface VisualizationCardProps {
   points: [number, number][];
   clusters?: number[];
   centroids?: [number, number][];
-  noisePoints?: [number, number][];
   title: string;
   hasResults: boolean;
   height?: number;
@@ -24,7 +23,6 @@ const VisualizationCard: React.FC<VisualizationCardProps> = ({
   points,
   clusters,
   centroids,
-  noisePoints,
   title,
   hasResults,
   height = 400
@@ -47,7 +45,6 @@ const VisualizationCard: React.FC<VisualizationCardProps> = ({
             points={points}
             clusters={clusters}
             centroids={centroids}
-            noisePoints={noisePoints}
             title={title}
             height={height}
           />
