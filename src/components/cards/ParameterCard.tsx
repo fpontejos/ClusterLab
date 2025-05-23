@@ -1,21 +1,12 @@
 import React from 'react';
-import {
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonItem,
-  IonLabel,
-  IonSelect,
-  IonSelectOption,
-  IonButton,
-  IonIcon,
-  IonSpinner,
-  IonGrid,
-  IonRow,
-  IonCol
-} from '@ionic/react';
-import { play } from 'ionicons/icons';
+import { 
+  Card, 
+  Columns, 
+  Form, 
+  Button, 
+  Loader,
+  Icon 
+} from 'react-bulma-components';
 
 interface Parameter {
   key: string;
@@ -47,76 +38,86 @@ const ParameterCard: React.FC<ParameterCardProps> = ({
   disabled,
   buttonText = 'Run Clustering'
 }) => {
-  const getColSize = () => {
-    const totalParams = parameters.length + 1; // +1 for dataset
-    if (totalParams <= 2) return { size: "12", sizeMd: "6" };
-    if (totalParams <= 4) return { size: "12", sizeMd: "3" };
-    return { size: "12", sizeMd: "2" };
+  const getColumnSize = () => {
+    const totalParams = parameters.length + 1;
+    if (totalParams <= 2) return 6;
+    if (totalParams <= 4) return 3;
+    return 2;
   };
 
-  const colProps = getColSize();
+  const columnSize = getColumnSize();
 
   return (
-    <IonCard>
-      <IonCardHeader>
-        <IonCardTitle>Configuration</IonCardTitle>
-      </IonCardHeader>
-      <IonCardContent>
-        <IonGrid>
-          <IonRow>
-            {/* Dataset Selector */}
-            <IonCol {...colProps}>
-              <IonItem>
-                <IonLabel label-placement="stacked">Dataset</IonLabel>
-                <IonSelect
-                 justify="space-between" 
+    <Card>
+      <Card.Header>
+        <Card.Header.Title>Configuration</Card.Header.Title>
+      </Card.Header>
+      <Card.Content>
+        <Columns multiline>
+          {/* Dataset Selector */}
+          <Columns.Column size={columnSize}>
+            <Form.Field>
+              <Form.Label>Dataset</Form.Label>
+              <Form.Control>
+                <Form.Select
                   value={selectedDataset}
-                  onIonChange={(e) => onDatasetChange(e.detail.value)}
-                  interface="popover"
+                  onChange={(e) => onDatasetChange(e.target.value)}
                 >
                   {availableDatasets.map((dataset) => (
-                    <IonSelectOption key={`dataset-${dataset}`} value={dataset}>
+                    <option key={`dataset-${dataset}`} value={dataset}>
                       {dataset}
-                    </IonSelectOption>
+                    </option>
                   ))}
-                </IonSelect>
-              </IonItem>
-            </IonCol>
+                </Form.Select>
+              </Form.Control>
+            </Form.Field>
+          </Columns.Column>
 
-            {/* Algorithm Parameters */}
-            {parameters.map((param) => (
-              <IonCol key={param.key} {...colProps}>
-                <IonItem>
-                  <IonLabel label-placement="stacked">{param.label}</IonLabel>
-                  <IonSelect
-                   justify="space-between" 
+          {/* Algorithm Parameters */}
+          {parameters.map((param) => (
+            <Columns.Column key={param.key} size={columnSize}>
+              <Form.Field>
+                <Form.Label>{param.label}</Form.Label>
+                <Form.Control>
+                  <Form.Select
                     value={param.value}
-                    onIonChange={(e) => param.onChange(e.detail.value)}
-                    interface="popover"
+                    onChange={(e) => param.onChange(e.target.value)}
                   >
                     {param.options.map((option) => (
-                      <IonSelectOption key={`${param.key}-${option}`} value={option}>
+                      <option key={`${param.key}-${option}`} value={option}>
                         {param.optionLabel ? param.optionLabel(option) : option}
-                      </IonSelectOption>
+                      </option>
                     ))}
-                  </IonSelect>
-                </IonItem>
-              </IonCol>
-            ))}
-          </IonRow>
-        </IonGrid>
+                  </Form.Select>
+                </Form.Control>
+              </Form.Field>
+            </Columns.Column>
+          ))}
+        </Columns>
 
-        <IonButton
-          expand="block"
+        <Button
+          fullwidth
+          color="primary"
           onClick={onRunClustering}
           disabled={disabled || isLoading}
           style={{ marginTop: '16px' }}
         >
-          {isLoading ? <IonSpinner name="crescent" /> : <IonIcon icon={play} />}
-          {isLoading ? `${buttonText}...` : buttonText}
-        </IonButton>
-      </IonCardContent>
-    </IonCard>
+          {isLoading ? (
+            <>
+              <Loader style={{ marginRight: '8px' }} />
+              {`${buttonText}...`}
+            </>
+          ) : (
+            <>
+              <Icon>
+                <span>▶</span>
+              </Icon>
+              {buttonText}
+            </>
+          )}
+        </Button>
+      </Card.Content>
+    </Card>
   );
 };
 

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonText
-} from '@ionic/react';
+import { Card, Content } from 'react-bulma-components';
 
 interface AlgorithmInfoCardProps {
   algorithmName: string;
@@ -23,12 +17,12 @@ const AlgorithmInfoCard: React.FC<AlgorithmInfoCardProps> = ({
   additionalInfo
 }) => {
   return (
-    <IonCard>
-      <IonCardHeader>
-        <IonCardTitle>{algorithmName}</IonCardTitle>
-      </IonCardHeader>
-      <IonCardContent>
-        <IonText>
+    <Card>
+      <Card.Header>
+        <Card.Header.Title>{algorithmName}</Card.Header.Title>
+      </Card.Header>
+      <Card.Content>
+        <Content>
           <p>{description}</p>
           
           <p><strong>Key Features:</strong></p>
@@ -52,9 +46,9 @@ const AlgorithmInfoCard: React.FC<AlgorithmInfoCardProps> = ({
           )}
 
           {additionalInfo}
-        </IonText>
-      </IonCardContent>
-    </IonCard>
+        </Content>
+      </Card.Content>
+    </Card>
   );
 };
 

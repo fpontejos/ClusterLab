@@ -6,7 +6,7 @@ import ParameterCard from "../components/cards/ParameterCard";
 import DatasetInfoCard from "../components/cards/DatasetInfoCard";
 import VisualizationCard from "../components/cards/VisualizationCard";
 import AlgorithmInfoCard from "../components/cards/AlgorithmInfoCard";
-import { IonGrid, IonRow, IonCol } from "@ionic/react";
+import { Columns } from "react-bulma-components";
 
 interface GMMResult {
   dataset: string;
@@ -189,53 +189,51 @@ const GMMPage: React.FC = () => {
       error={error}
       onErrorDismiss={() => setError(null)}
     >
-      <IonGrid>
-            <IonRow>
-              <IonCol size="8">
-                <ParameterCard
-                  availableDatasets={availableDatasets}
-                  selectedDataset={selectedDataset}
-                  onDatasetChange={setSelectedDataset}
-                  parameters={parameters}
-                  onRunClustering={handleRunClustering}
-                  isLoading={loadingClustering}
-                  disabled={loading}
-                  buttonText="Run GMM"
-                />
-              </IonCol>
+      <Columns>
+        <Columns.Column size={8}>
+          <ParameterCard
+            availableDatasets={availableDatasets}
+            selectedDataset={selectedDataset}
+            onDatasetChange={setSelectedDataset}
+            parameters={parameters}
+            onRunClustering={handleRunClustering}
+            isLoading={loadingClustering}
+            disabled={loading}
+            buttonText="Run GMM"
+          />
+        </Columns.Column>
 
-              <IonCol size="4">
-                <DatasetInfoCard
-                  dataset={dataset}
-                  loading={loading}
-                  statusContent={statusContent}
-                />
-              </IonCol>
-            </IonRow>
+        <Columns.Column size={4}>
+          <DatasetInfoCard
+            dataset={dataset}
+            loading={loading}
+            statusContent={statusContent}
+          />
+        </Columns.Column>
+      </Columns>
 
-            <IonRow>
-              <IonCol size="8">
-                {dataset && !loading && (
-                  <VisualizationCard
-                    loading={loadingClustering}
-                    points={dataset.points.map((p) => [p.x, p.y])}
-                    clusters={clusteringResult?.labels}
-                    centroids={clusteringResult?.means.map((m) => [m.x, m.y])}
-                    title={
-                      clusteringResult
-                        ? `${dataset.name} - GMM (k=${nComponents}, ${covarianceType})`
-                        : `${dataset.name} Dataset`
-                    }
-                    hasResults={!!clusteringResult}
-                  />
-                )}
-              </IonCol>
-              <IonCol size="4">
-                <AlgorithmInfoCard {...algorithmInfo} />
-              </IonCol>
-            </IonRow>
-
-      </IonGrid>
+      <Columns>
+        <Columns.Column size={8}>
+          {dataset && !loading && (
+            <VisualizationCard
+              loading={loadingClustering}
+              points={dataset.points.map((p) => [p.x, p.y])}
+              clusters={clusteringResult?.labels}
+              centroids={clusteringResult?.means.map((m) => [m.x, m.y])}
+              title={
+                clusteringResult
+                  ? `${dataset.name} - GMM (k=${nComponents}, ${covarianceType})`
+                  : `${dataset.name} Dataset`
+              }
+              hasResults={!!clusteringResult}
+            />
+          )}
+        </Columns.Column>
+        
+        <Columns.Column size={4}>
+          <AlgorithmInfoCard {...algorithmInfo} />
+        </Columns.Column>
+      </Columns>
     </AlgorithmPageLayout>
   );
 };

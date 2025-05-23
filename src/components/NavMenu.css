@@ -1,4 +1,4 @@
-#clustering-list {
+/* #clustering-list {
     padding: 20px 0;
   }
   
@@ -43,4 +43,9 @@
     font-size: 12px;
     color: var(--ion-color-medium);
     margin: 2px 0 0 0;
+  } */
+
+  #navbar-main {
+    /* border: 1px solid red; */
+    display: flex;
   }

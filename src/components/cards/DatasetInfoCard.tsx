@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonText,
-  IonSpinner
-} from '@ionic/react';
+import { Card, Content, Loader } from 'react-bulma-components';
 import type { Dataset } from '../../types';
 
 interface DatasetInfoCardProps {
@@ -22,14 +15,14 @@ const DatasetInfoCard: React.FC<DatasetInfoCardProps> = ({
 }) => {
   if (loading) {
     return (
-      <IonCard>
-        <IonCardContent>
+      <Card>
+        <Card.Content>
           <div style={{ textAlign: 'center', padding: '20px' }}>
-            <IonSpinner />
+            <Loader />
             <p>Loading dataset...</p>
           </div>
-        </IonCardContent>
-      </IonCard>
+        </Card.Content>
+      </Card>
     );
   }
 
@@ -38,21 +31,21 @@ const DatasetInfoCard: React.FC<DatasetInfoCardProps> = ({
   }
 
   return (
-    <IonCard>
-      <IonCardHeader>
-        <IonCardTitle>Dataset Information</IonCardTitle>
-      </IonCardHeader>
-      <IonCardContent>
-        <IonText>
+    <Card>
+      <Card.Header>
+        <Card.Header.Title>Dataset Information</Card.Header.Title>
+      </Card.Header>
+      <Card.Content>
+        <Content>
           <h3>{dataset.name}</h3>
           <p><strong>Size:</strong> {dataset.points.length} data points</p>
           {dataset.description && (
             <p><strong>Description:</strong> {dataset.description}</p>
           )}
           {statusContent}
-        </IonText>
-      </IonCardContent>
-    </IonCard>
+        </Content>
+      </Card.Content>
+    </Card>
   );
 };
 

@@ -1,15 +1,13 @@
 import React from 'react';
-import {
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonMenuButton,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  IonAlert
-} from '@ionic/react';
-import './cards/Cards.css';
+import { 
+  Hero, 
+  Container, 
+  Title, 
+  Subtitle, 
+  Section, 
+  Modal,
+  Button 
+} from 'react-bulma-components';
 
 interface AlgorithmPageLayoutProps {
   title: string;
@@ -27,35 +25,38 @@ const AlgorithmPageLayout: React.FC<AlgorithmPageLayoutProps> = ({
   onErrorDismiss
 }) => {
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton />
-          </IonButtons>
-          <IonTitle>{title}</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">{shortTitle}</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        
-        <div className="ion-padding">
+    <div className="app-page">
+      <Hero color="light" size="small">
+        <Hero.Body>
+          <Container>
+            {title}
+            {shortTitle}
+          </Container>
+        </Hero.Body>
+      </Hero>
+      
+      <Section>
+        <Container>
           {children}
-        </div>
+        </Container>
+      </Section>
 
-        <IonAlert
-          isOpen={!!error}
-          onDidDismiss={onErrorDismiss}
-          header="Error"
-          message={error || ''}
-          buttons={['OK']}
-        />
-      </IonContent>
-    </IonPage>
+      <Modal show={!!error} onClose={onErrorDismiss}>
+        <Modal.Card>
+          <Modal.Card.Header>
+            <Modal.Card.Title>Error</Modal.Card.Title>
+          </Modal.Card.Header>
+          <Modal.Card.Body>
+            <p>{error}</p>
+          </Modal.Card.Body>
+          <Modal.Card.Footer>
+            <Button color="primary" onClick={onErrorDismiss}>
+              OK
+            </Button>
+          </Modal.Card.Footer>
+        </Modal.Card>
+      </Modal>
+    </div>
   );
 };
 

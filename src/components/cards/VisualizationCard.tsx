@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonSpinner
-} from '@ionic/react';
+import { Card, Loader } from 'react-bulma-components';
 import ScatterPlot from './../ScatterPlot';
 
 interface VisualizationCardProps {
@@ -28,16 +22,16 @@ const VisualizationCard: React.FC<VisualizationCardProps> = ({
   height = 400
 }) => {
   return (
-    <IonCard>
-      <IonCardHeader>
-        <IonCardTitle>
+    <Card>
+      <Card.Header>
+        <Card.Header.Title>
           {hasResults ? 'Clustering Results' : 'Data Visualization'}
-        </IonCardTitle>
-      </IonCardHeader>
-      <IonCardContent>
+        </Card.Header.Title>
+      </Card.Header>
+      <Card.Content>
         {loading ? (
           <div style={{ textAlign: 'center', padding: '40px' }}>
-            <IonSpinner />
+            <Loader />
             <p>Loading clustering results...</p>
           </div>
         ) : (
@@ -49,8 +43,8 @@ const VisualizationCard: React.FC<VisualizationCardProps> = ({
             height={height}
           />
         )}
-      </IonCardContent>
-    </IonCard>
+      </Card.Content>
+    </Card>
   );
 };
 

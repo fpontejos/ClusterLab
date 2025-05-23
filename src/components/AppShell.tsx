@@ -1,35 +1,57 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route, Link, useLocation, Redirect } from 'react-router-dom';
 import { 
-  IonApp, 
-  IonRouterOutlet, 
-  IonTabs, 
-  IonTabBar, 
-  IonTabButton, 
-  IonIcon, 
-  IonLabel 
-} from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import { Redirect, Route } from 'react-router-dom';
-import { 
-  analytics, 
-  grid, 
-  triangle, 
-  resize, 
-  ellipse 
-} from 'ionicons/icons';
+  Navbar, 
+  Section, 
+  Container, 
+  Tabs, 
+  Title 
+} from 'react-bulma-components';
 
 import KMeansPage from '../pages/KMeansPage';
 import DBSCANPage from '../pages/DBSCANPage';
 import AgglomerativePage from '../pages/AgglomerativePage';
 import MeanShiftPage from '../pages/MeanShiftPage';
 import GMMPage from '../pages/GMMPage';
+import AppNavbar from './AppNavbar';
+
+const tabs = [
+  { path: '/kmeans', label: 'K-Means', icon: 'K' },
+  { path: '/dbscan', label: 'DBSCAN', icon: 'D' },
+  { path: '/agglomerative', label: 'Agglomerative', icon: 'A' },
+  { path: '/meanshift', label: 'Mean Shift', icon: 'M' },
+  { path: '/gmm', label: 'GMM', icon: 'G' }
+];
+
+const TabNavigation: React.FC = () => {
+  const location = useLocation();
+
+  return (
+    <Tabs align="centered" size="large">
+      {tabs.map((tab) => (
+        <Tabs.Tab 
+          key={tab.path} 
+          active={location.pathname === tab.path}
+          renderAs={Link}
+          to={tab.path}
+        >
+          <span style={{ marginRight: '0.5rem' }}>{tab.icon}</span>
+          {tab.label}
+        </Tabs.Tab>
+      ))}
+    </Tabs>
+  );
+};
 
 const AppShell: React.FC = () => {
   return (
-    <IonApp>
-      <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
+    <div className="app-shell">
+      <Router>
+
+      <AppNavbar />
+
+        <main className="main-content">
+          <Switch>
             <Route exact path="/kmeans" component={KMeansPage} />
             <Route exact path="/dbscan" component={DBSCANPage} />
             <Route exact path="/agglomerative" component={AgglomerativePage} />
@@ -38,37 +60,10 @@ const AppShell: React.FC = () => {
             <Route exact path="/">
               <Redirect to="/kmeans" />
             </Route>
-          </IonRouterOutlet>
-          
-          <IonTabBar slot="top">
-            <IonTabButton tab="kmeans" href="/kmeans">
-              <IonIcon icon={analytics} />
-              <IonLabel>K-Means</IonLabel>
-            </IonTabButton>
-            
-            <IonTabButton tab="dbscan" href="/dbscan">
-              <IonIcon icon={grid} />
-              <IonLabel>DBSCAN</IonLabel>
-            </IonTabButton>
-            
-            <IonTabButton tab="agglomerative" href="/agglomerative">
-              <IonIcon icon={triangle} />
-              <IonLabel>Agglomerative</IonLabel>
-            </IonTabButton>
-            
-            <IonTabButton tab="meanshift" href="/meanshift">
-              <IonIcon icon={resize} />
-              <IonLabel>Mean Shift</IonLabel>
-            </IonTabButton>
-            
-            <IonTabButton tab="gmm" href="/gmm">
-              <IonIcon icon={ellipse} />
-              <IonLabel>GMM</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
-      </IonReactRouter>
-    </IonApp>
+          </Switch>
+        </main>
+      </Router>
+    </div>
   );
 };
 

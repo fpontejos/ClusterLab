@@ -6,7 +6,7 @@ import ParameterCard from "../components/cards/ParameterCard";
 import DatasetInfoCard from "../components/cards/DatasetInfoCard";
 import VisualizationCard from "../components/cards/VisualizationCard";
 import AlgorithmInfoCard from "../components/cards/AlgorithmInfoCard";
-import { IonGrid, IonRow, IonCol } from "@ionic/react";
+import { Columns } from "react-bulma-components";
 
 interface MeanShiftResult {
   dataset: string;
@@ -163,56 +163,54 @@ const MeanShiftPage: React.FC = () => {
       error={error}
       onErrorDismiss={() => setError(null)}
     >
-      <IonGrid>
-        <IonRow>
-          <IonCol size="8">
-            <ParameterCard
-              availableDatasets={availableDatasets}
-              selectedDataset={selectedDataset}
-              onDatasetChange={setSelectedDataset}
-              parameters={parameters}
-              onRunClustering={handleRunClustering}
-              isLoading={loadingClustering}
-              disabled={loading}
-              buttonText="Run Mean Shift"
+      <Columns>
+        <Columns.Column size={8}>
+          <ParameterCard
+            availableDatasets={availableDatasets}
+            selectedDataset={selectedDataset}
+            onDatasetChange={setSelectedDataset}
+            parameters={parameters}
+            onRunClustering={handleRunClustering}
+            isLoading={loadingClustering}
+            disabled={loading}
+            buttonText="Run Mean Shift"
+          />
+        </Columns.Column>
+
+        <Columns.Column size={4}>
+          <DatasetInfoCard
+            dataset={dataset}
+            loading={loading}
+            statusContent={statusContent}
+          />
+        </Columns.Column>
+      </Columns>
+
+      <Columns>
+        <Columns.Column size={8}>
+          {dataset && !loading && (
+            <VisualizationCard
+              loading={loadingClustering}
+              points={dataset.points.map((p) => [p.x, p.y])}
+              clusters={clusteringResult?.labels}
+              centroids={clusteringResult?.cluster_centers.map((c) => [
+                c.x,
+                c.y,
+              ])}
+              title={
+                clusteringResult
+                  ? `${dataset.name} - Mean Shift (bandwidth=${bandwidth})`
+                  : `${dataset.name} Dataset`
+              }
+              hasResults={!!clusteringResult}
             />
-          </IonCol>
+          )}
+        </Columns.Column>
 
-          <IonCol size="4">
-            <DatasetInfoCard
-              dataset={dataset}
-              loading={loading}
-              statusContent={statusContent}
-            />
-          </IonCol>
-        </IonRow>
-
-        <IonRow>
-          <IonCol size="8">
-            {dataset && !loading && (
-              <VisualizationCard
-                loading={loadingClustering}
-                points={dataset.points.map((p) => [p.x, p.y])}
-                clusters={clusteringResult?.labels}
-                centroids={clusteringResult?.cluster_centers.map((c) => [
-                  c.x,
-                  c.y,
-                ])}
-                title={
-                  clusteringResult
-                    ? `${dataset.name} - Mean Shift (bandwidth=${bandwidth})`
-                    : `${dataset.name} Dataset`
-                }
-                hasResults={!!clusteringResult}
-              />
-            )}
-          </IonCol>
-
-          <IonCol size="4">
-            <AlgorithmInfoCard {...algorithmInfo} />
-          </IonCol>
-        </IonRow>
-      </IonGrid>
+        <Columns.Column size={4}>
+          <AlgorithmInfoCard {...algorithmInfo} />
+        </Columns.Column>
+      </Columns>
     </AlgorithmPageLayout>
   );
 };
