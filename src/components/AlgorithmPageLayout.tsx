@@ -1,30 +1,20 @@
 import React from "react";
 
 interface AlgorithmPageLayoutProps {
-  title: string;
-  shortTitle: string;
   children: React.ReactNode;
   error: string | null;
   onErrorDismiss: () => void;
 }
 
 const AlgorithmPageLayout: React.FC<AlgorithmPageLayoutProps> = ({
-  title,
-  shortTitle,
   children,
   error,
   onErrorDismiss,
 }) => {
   return (
     <div className="app-page">
-      <section class="hero is-light is-medium">
-        <div class="container">
-          <p class="title">{title}</p>
-        </div>
-      </section>
-      <div class="container">
-        {children}
-      </div>
+
+          {children}
 
 
       {error && (

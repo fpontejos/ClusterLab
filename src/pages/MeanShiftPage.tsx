@@ -3,7 +3,6 @@ import { loadDataset, getAvailableDatasets } from "../utils/dataLoader";
 import type { Dataset } from "../types";
 import AlgorithmPageLayout from "../components/AlgorithmPageLayout";
 import ParameterCard from "../components/cards/ParameterCard";
-import DatasetInfoCard from "../components/cards/DatasetInfoCard";
 import VisualizationCard from "../components/cards/VisualizationCard";
 import AlgorithmInfoCard from "../components/cards/AlgorithmInfoCard";
 
@@ -156,65 +155,53 @@ const MeanShiftPage: React.FC = () => {
   };
 
   return (
+    <div className="algorithm-page">
+      <AlgorithmPageLayout error={error} onErrorDismiss={() => setError(null)}>
+        <section className="hero is-light mb-5">
+          <div className="hero-body">
+            <div className="container content">
+              <p className="title">{algorithmInfo.algorithmName}</p>
+              <p>{algorithmInfo.description}</p>
 
+              <div className="columns">
+                <AlgorithmInfoCard {...algorithmInfo} />
 
-
-    <AlgorithmPageLayout
-        title={algorithmInfo.algorithmName}
-        shortTitle=""
-        error={error}
-        onErrorDismiss={() => setError(null)}
-      >
-        <div class="columns">
-          <div class="column">
-            <ParameterCard
-              availableDatasets={availableDatasets}
-              selectedDataset={selectedDataset}
-              onDatasetChange={setSelectedDataset}
-              parameters={parameters}
-              onRunClustering={handleRunClustering}
-              isLoading={loadingClustering}
-              disabled={loading}
-              buttonText={algorithmInfo.algorithmName}
-            />
+                <ParameterCard
+                  availableDatasets={availableDatasets}
+                  selectedDataset={selectedDataset}
+                  onDatasetChange={setSelectedDataset}
+                  parameters={parameters}
+                  onRunClustering={handleRunClustering}
+                  isLoading={loadingClustering}
+                  disabled={loading}
+                  buttonText={algorithmInfo.algorithmName}
+                />
+              </div>
+            </div>
           </div>
+        </section>
 
-          <div class="column">
-            <DatasetInfoCard
-              dataset={dataset}
-              loading={loading}
-              statusContent={statusContent}
-            />
+        <section>
+          <div className="container">
+            {dataset && !loading && (
+              <VisualizationCard
+                loading={loadingClustering}
+                dataset={dataset}
+                statusContent={statusContent}
+                points={dataset.points.map((p) => [p.x, p.y])}
+                clusters={clusteringResult?.labels}
+                title={
+                  clusteringResult
+                    ? `${dataset.name} - Mean Shift (bandwidth=${bandwidth})`
+                    : `${dataset.name} Dataset`
+                }
+                hasResults={!!clusteringResult}
+              />
+            )}
           </div>
-        </div>
-
-        <div class="columns">
-          <div class="column">
-          {dataset && !loading && (
-            <VisualizationCard
-              loading={loadingClustering}
-              points={dataset.points.map((p) => [p.x, p.y])}
-              clusters={clusteringResult?.labels}
-              centroids={clusteringResult?.cluster_centers.map((c) => [
-                c.x,
-                c.y,
-              ])}
-              title={
-                clusteringResult
-                  ? `${dataset.name} - Mean Shift (bandwidth=${bandwidth})`
-                  : `${dataset.name} Dataset`
-              }
-              hasResults={!!clusteringResult}
-            />
-          )}
-          </div>
-
-          <div class="column">
-            <AlgorithmInfoCard {...algorithmInfo} />
-          </div>
-        </div>
+        </section>
       </AlgorithmPageLayout>
-
+    </div>
   );
 };
 

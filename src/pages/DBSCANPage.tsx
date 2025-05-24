@@ -3,7 +3,6 @@ import { loadDataset, getAvailableDatasets } from "../utils/dataLoader";
 import type { Dataset } from "../types";
 import AlgorithmPageLayout from "../components/AlgorithmPageLayout";
 import ParameterCard from "../components/cards/ParameterCard";
-import DatasetInfoCard from "../components/cards/DatasetInfoCard";
 import VisualizationCard from "../components/cards/VisualizationCard";
 import AlgorithmInfoCard from "../components/cards/AlgorithmInfoCard";
 
@@ -189,40 +188,39 @@ const DBSCANPage: React.FC = () => {
   };
 
   return (
-    <AlgorithmPageLayout
-        title={algorithmInfo.algorithmName}
-        shortTitle=""
-        error={error}
-        onErrorDismiss={() => setError(null)}
-      >
-        <div class="columns">
-          <div class="column">
-            <ParameterCard
-              availableDatasets={availableDatasets}
-              selectedDataset={selectedDataset}
-              onDatasetChange={setSelectedDataset}
-              parameters={parameters}
-              onRunClustering={handleRunClustering}
-              isLoading={loadingClustering}
-              disabled={loading}
-              buttonText={algorithmInfo.algorithmName}
-            />
-          </div>
+    <div className="algorithm-page">
+      <AlgorithmPageLayout error={error} onErrorDismiss={() => setError(null)}>
+        <section className="hero is-light mb-5">
+          <div className="hero-body">
+            <div className="container content">
+              <p className="title">{algorithmInfo.algorithmName}</p>
+              <p>{algorithmInfo.description}</p>
 
-          <div class="column">
-            <DatasetInfoCard
-              dataset={dataset}
-              loading={loading}
-              statusContent={statusContent}
-            />
-          </div>
-        </div>
+              <div className="columns">
+                <AlgorithmInfoCard {...algorithmInfo} />
 
-        <div class="columns">
-          <div class="column">
+                <ParameterCard
+                  availableDatasets={availableDatasets}
+                  selectedDataset={selectedDataset}
+                  onDatasetChange={setSelectedDataset}
+                  parameters={parameters}
+                  onRunClustering={handleRunClustering}
+                  isLoading={loadingClustering}
+                  disabled={loading}
+                  buttonText={algorithmInfo.algorithmName}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="container">
             {dataset && !loading && (
               <VisualizationCard
                 loading={loadingClustering}
+                dataset={dataset}
+                statusContent={statusContent}
                 points={dataset.points.map((p) => [p.x, p.y])}
                 clusters={clusteringResult?.labels}
                 title={
@@ -234,14 +232,9 @@ const DBSCANPage: React.FC = () => {
               />
             )}
           </div>
-
-          <div class="column">
-            <AlgorithmInfoCard {...algorithmInfo} />
-          </div>
-        </div>
+        </section>
       </AlgorithmPageLayout>
-
-    
+    </div>
   );
 };
 

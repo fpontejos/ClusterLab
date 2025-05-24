@@ -3,7 +3,6 @@ import { loadDataset, getAvailableDatasets } from "../utils/dataLoader";
 import type { Dataset } from "../types";
 import AlgorithmPageLayout from "../components/AlgorithmPageLayout";
 import ParameterCard from "../components/cards/ParameterCard";
-import DatasetInfoCard from "../components/cards/DatasetInfoCard";
 import VisualizationCard from "../components/cards/VisualizationCard";
 import AlgorithmInfoCard from "../components/cards/AlgorithmInfoCard";
 
@@ -182,60 +181,61 @@ const GMMPage: React.FC = () => {
   };
 
   return (
-    <AlgorithmPageLayout
-        title={algorithmInfo.algorithmName}
-        shortTitle=""
+
+    <div className="algorithm-page">
+      <AlgorithmPageLayout
         error={error}
         onErrorDismiss={() => setError(null)}
       >
-        <div class="columns">
-          <div class="column">
-            <ParameterCard
-              availableDatasets={availableDatasets}
-              selectedDataset={selectedDataset}
-              onDatasetChange={setSelectedDataset}
-              parameters={parameters}
-              onRunClustering={handleRunClustering}
-              isLoading={loadingClustering}
-              disabled={loading}
-              buttonText={algorithmInfo.algorithmName}
-            />
-          </div>
+        <section className="hero is-light mb-5">
+          <div className="hero-body">
+            <div className="container content">
+              <p className="title">{algorithmInfo.algorithmName}</p>
+              <p>{algorithmInfo.description}</p>
 
-          <div class="column">
-            <DatasetInfoCard
-              dataset={dataset}
-              loading={loading}
-              statusContent={statusContent}
-            />
-          </div>
-        </div>
+              <div className="columns">
+                <AlgorithmInfoCard {...algorithmInfo} />
 
-        <div class="columns">
-          <div class="column">
-          {dataset && !loading && (
-            <VisualizationCard
-              loading={loadingClustering}
-              points={dataset.points.map((p) => [p.x, p.y])}
-              clusters={clusteringResult?.labels}
-              centroids={clusteringResult?.means.map((m) => [m.x, m.y])}
-              title={
-                clusteringResult
-                  ? `${dataset.name} - GMM (k=${nComponents}, ${covarianceType})`
-                  : `${dataset.name} Dataset`
-              }
-              hasResults={!!clusteringResult}
-            />
-          )}
+                <ParameterCard
+                  availableDatasets={availableDatasets}
+                  selectedDataset={selectedDataset}
+                  onDatasetChange={setSelectedDataset}
+                  parameters={parameters}
+                  onRunClustering={handleRunClustering}
+                  isLoading={loadingClustering}
+                  disabled={loading}
+                  buttonText={algorithmInfo.algorithmName}
+                />
+              </div>
+            </div>
           </div>
+        </section>
 
-          <div class="column">
-            <AlgorithmInfoCard {...algorithmInfo} />
+        <section>
+          <div className="container">
+            {dataset && !loading && (
+              <VisualizationCard
+                loading={loadingClustering}
+                dataset={dataset}
+                statusContent={statusContent}
+                points={dataset.points.map((p) => [p.x, p.y])}
+                clusters={clusteringResult?.labels}
+                title={
+                  clusteringResult
+                    ? `${dataset.name} - GMM (k=${nComponents}, ${covarianceType})`
+                    : `${dataset.name} Dataset`
+                }
+                hasResults={!!clusteringResult}
+              />
+            )}
           </div>
-        </div>
+        </section>
       </AlgorithmPageLayout>
+    </div>
 
-  );
+
+
+);
 };
 
 export default GMMPage;

@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   useLocation,
   Redirect,
 } from "react-router-dom";
@@ -29,14 +28,14 @@ const AppNavigation: React.FC = () => {
   return (
     <nav className="navbar is-large is-info
 ">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="https://clusterlab.netlify.app">
+      <div className="navbar-brand">
+        <a className="navbar-item" href="/">
           ClusterLab
         </a>
 
         <a
           role="button"
-          class="navbar-burger"
+          className="navbar-burger"
           aria-label="menu"
           aria-expanded="false"
           data-target="navbarBasicExample"
@@ -52,6 +51,7 @@ const AppNavigation: React.FC = () => {
         <div className="navbar-start">
           {navlinks.map((navlink) => (
             <div 
+            key={`navlink-${navlink.label}`}
             className={`navbar-item is-tab is-hoverable ${
             location.pathname === navlink.path ? "is-active " : ""
           }`}

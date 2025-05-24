@@ -3,10 +3,8 @@ import { loadDataset, getAvailableDatasets } from "../utils/dataLoader";
 import type { Dataset } from "../types";
 import AlgorithmPageLayout from "../components/AlgorithmPageLayout";
 import ParameterCard from "../components/cards/ParameterCard";
-import DatasetInfoCard from "../components/cards/DatasetInfoCard";
 import VisualizationCard from "../components/cards/VisualizationCard";
 import AlgorithmInfoCard from "../components/cards/AlgorithmInfoCard";
-
 
 // const { Input, Field, Control, Label, Select } = Form;
 interface AgglomerativeResult {
@@ -28,7 +26,7 @@ const AgglomerativePage: React.FC = () => {
   const [loadingClustering, setLoadingClustering] = useState<boolean>(false);
 
   const availableDatasets = getAvailableDatasets();
-  const [subject, setSubject] = useState(""); // delete
+  
 
   // Parameter configuration
   const parameters = [
@@ -155,55 +153,62 @@ const AgglomerativePage: React.FC = () => {
       "Can capture nested cluster structures",
     ],
     parameters: [
-      { name: "Ward", description: "Minimizes within-cluster variance" },
       {
-        name: "Complete",
+        name: "Linkage: Ward",
+        description: "Minimizes within-cluster variance",
+      },
+      {
+        name: "Linkage: Complete",
         description: "Uses maximum distance between clusters",
       },
       {
-        name: "Average",
+        name: "Linkage: Average",
         description: "Uses average distance between all points",
       },
-      { name: "Single", description: "Uses minimum distance between clusters" },
+      {
+        name: "Linkage: Single",
+        description: "Uses minimum distance between clusters",
+      },
     ],
   };
 
   return (
     <div className="algorithm-page">
       <AlgorithmPageLayout
-        title={algorithmInfo.algorithmName}
-        shortTitle=""
         error={error}
         onErrorDismiss={() => setError(null)}
       >
-        <div class="columns">
-          <div class="column">
-            <ParameterCard
-              availableDatasets={availableDatasets}
-              selectedDataset={selectedDataset}
-              onDatasetChange={setSelectedDataset}
-              parameters={parameters}
-              onRunClustering={handleRunClustering}
-              isLoading={loadingClustering}
-              disabled={loading}
-              buttonText={algorithmInfo.algorithmName}
-            />
-          </div>
+        <section className="hero is-light mb-5">
+          <div className="hero-body">
+            <div className="container content">
+              <p className="title">{algorithmInfo.algorithmName}</p>
+              <p>{algorithmInfo.description}</p>
 
-          <div class="column">
-            <DatasetInfoCard
-              dataset={dataset}
-              loading={loading}
-              statusContent={statusContent}
-            />
-          </div>
-        </div>
+              <div className="columns">
+                <AlgorithmInfoCard {...algorithmInfo} />
 
-        <div class="columns">
-          <div class="column">
+                <ParameterCard
+                  availableDatasets={availableDatasets}
+                  selectedDataset={selectedDataset}
+                  onDatasetChange={setSelectedDataset}
+                  parameters={parameters}
+                  onRunClustering={handleRunClustering}
+                  isLoading={loadingClustering}
+                  disabled={loading}
+                  buttonText={algorithmInfo.algorithmName}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="container">
             {dataset && !loading && (
               <VisualizationCard
                 loading={loadingClustering}
+                dataset={dataset}
+                statusContent={statusContent}
                 points={dataset.points.map((p) => [p.x, p.y])}
                 clusters={clusteringResult?.labels}
                 title={
@@ -215,11 +220,7 @@ const AgglomerativePage: React.FC = () => {
               />
             )}
           </div>
-
-          <div class="column">
-            <AlgorithmInfoCard {...algorithmInfo} />
-          </div>
-        </div>
+        </section>
       </AlgorithmPageLayout>
     </div>
   );

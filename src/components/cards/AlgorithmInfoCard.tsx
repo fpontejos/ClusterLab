@@ -1,57 +1,52 @@
-import React from 'react';
+import React from "react";
 
 interface AlgorithmInfoCardProps {
   algorithmName: string;
-  description: string;
   features: string[];
   parameters?: { name: string; description: string }[];
   additionalInfo?: React.ReactNode;
 }
 
 const AlgorithmInfoCard: React.FC<AlgorithmInfoCardProps> = ({
-  algorithmName,
-  description,
   features,
   parameters,
-  additionalInfo
+  additionalInfo,
 }) => {
   return (
+    <div className="column">
 
-    <div class="card">
-  <header class="card-header">
-    <p class="card-header-title">{algorithmName}</p>
-  </header>
-  <div class="card-content">
-    <div class="content">
-    <p>{description}</p>
-          
+      <div className="card">
+        <header className="card-header">
+          <p className="card-header-title">Algorithm Details</p>
+        </header>
+        <div className="card-content">
+          <div className="content">
           <p><strong>Key Features:</strong></p>
-          <ul>
-            {features.map((feature, index) => (
-              <li key={index}>{feature}</li>
-            ))}
-          </ul>
+                <ul>
+                  {features.map((feature, index) => (
+                    <li key={index}>{feature}</li>
+                  ))}
+                </ul>
 
-          {parameters && parameters.length > 0 && (
-            <>
-              <p><strong>Parameters:</strong></p>
-              <ul>
-                {parameters.map((param, index) => (
-                  <li key={index}>
-                    <strong>{param.name}:</strong> {param.description}
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
+            {parameters && parameters.length > 0 && (
+              <>
+                <p><strong>Hyperparameters:</strong></p>
 
-          {additionalInfo}
-    </div>
-  </div>
-</div>
+                <ul>
+                  {parameters.map((param, index) => (
+                    <li key={index}>
+                      <strong>{param.name}:</strong> {param.description}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
 
-
-
+            {additionalInfo}
+          </div>
+        </div>
+      </div>
+      </div>
   );
 };
 
