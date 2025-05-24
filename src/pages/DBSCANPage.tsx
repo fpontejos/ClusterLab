@@ -6,7 +6,6 @@ import ParameterCard from "../components/cards/ParameterCard";
 import DatasetInfoCard from "../components/cards/DatasetInfoCard";
 import VisualizationCard from "../components/cards/VisualizationCard";
 import AlgorithmInfoCard from "../components/cards/AlgorithmInfoCard";
-import { Columns } from "react-bulma-components";
 
 interface DBSCANResult {
   dataset: string;
@@ -191,56 +190,58 @@ const DBSCANPage: React.FC = () => {
 
   return (
     <AlgorithmPageLayout
-      title="DBSCAN Clustering"
-      shortTitle="DBSCAN"
-      error={error}
-      onErrorDismiss={() => setError(null)}
-    >
-      <Columns>
-        <Columns.Column size={8}>
-          <ParameterCard
-            availableDatasets={availableDatasets}
-            selectedDataset={selectedDataset}
-            onDatasetChange={setSelectedDataset}
-            parameters={parameters}
-            onRunClustering={handleRunClustering}
-            isLoading={loadingClustering}
-            disabled={loading}
-            buttonText="Run DBSCAN"
-          />
-        </Columns.Column>
-
-        <Columns.Column size={4}>
-          <DatasetInfoCard
-            dataset={dataset}
-            loading={loading}
-            statusContent={statusContent}
-          />
-        </Columns.Column>
-      </Columns>
-
-      <Columns>
-        <Columns.Column size={8}>
-          {dataset && !loading && (
-            <VisualizationCard
-              loading={loadingClustering}
-              points={dataset.points.map((p) => [p.x, p.y])}
-              clusters={clusteringResult?.labels}
-              title={
-                clusteringResult
-                  ? `${dataset.name} - DBSCAN (eps=${eps}, min_samples=${minSamples})`
-                  : `${dataset.name} Dataset`
-              }
-              hasResults={!!clusteringResult}
+        title={algorithmInfo.algorithmName}
+        shortTitle=""
+        error={error}
+        onErrorDismiss={() => setError(null)}
+      >
+        <div class="columns">
+          <div class="column">
+            <ParameterCard
+              availableDatasets={availableDatasets}
+              selectedDataset={selectedDataset}
+              onDatasetChange={setSelectedDataset}
+              parameters={parameters}
+              onRunClustering={handleRunClustering}
+              isLoading={loadingClustering}
+              disabled={loading}
+              buttonText={algorithmInfo.algorithmName}
             />
-          )}
-        </Columns.Column>
+          </div>
 
-        <Columns.Column size={4}>
-          <AlgorithmInfoCard {...algorithmInfo} />
-        </Columns.Column>
-      </Columns>
-    </AlgorithmPageLayout>
+          <div class="column">
+            <DatasetInfoCard
+              dataset={dataset}
+              loading={loading}
+              statusContent={statusContent}
+            />
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            {dataset && !loading && (
+              <VisualizationCard
+                loading={loadingClustering}
+                points={dataset.points.map((p) => [p.x, p.y])}
+                clusters={clusteringResult?.labels}
+                title={
+                  clusteringResult
+                    ? `${dataset.name} - DBSCAN (eps=${eps}, min_samples=${minSamples})`
+                    : `${dataset.name} Dataset`
+                }
+                hasResults={!!clusteringResult}
+              />
+            )}
+          </div>
+
+          <div class="column">
+            <AlgorithmInfoCard {...algorithmInfo} />
+          </div>
+        </div>
+      </AlgorithmPageLayout>
+
+    
   );
 };
 

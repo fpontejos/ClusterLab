@@ -1,13 +1,4 @@
-import React from 'react';
-import { 
-  Hero, 
-  Container, 
-  Title, 
-  Subtitle, 
-  Section, 
-  Modal,
-  Button 
-} from 'react-bulma-components';
+import React from "react";
 
 interface AlgorithmPageLayoutProps {
   title: string;
@@ -22,40 +13,44 @@ const AlgorithmPageLayout: React.FC<AlgorithmPageLayoutProps> = ({
   shortTitle,
   children,
   error,
-  onErrorDismiss
+  onErrorDismiss,
 }) => {
   return (
     <div className="app-page">
-      <Hero color="light" size="small">
-        <Hero.Body>
-          <Container>
-            {title}
-            {shortTitle}
-          </Container>
-        </Hero.Body>
-      </Hero>
-      
-      <Section>
-        <Container>
-          {children}
-        </Container>
-      </Section>
+      <section class="hero is-light is-medium">
+        <div class="container">
+          <p class="title">{title}</p>
+        </div>
+      </section>
+      <div class="container">
+        {children}
+      </div>
 
-      <Modal show={!!error} onClose={onErrorDismiss}>
-        <Modal.Card>
-          <Modal.Card.Header>
-            <Modal.Card.Title>Error</Modal.Card.Title>
-          </Modal.Card.Header>
-          <Modal.Card.Body>
-            <p>{error}</p>
-          </Modal.Card.Body>
-          <Modal.Card.Footer>
-            <Button color="primary" onClick={onErrorDismiss}>
-              OK
-            </Button>
-          </Modal.Card.Footer>
-        </Modal.Card>
-      </Modal>
+
+      {error && (
+        <div className="modal is-active">
+          <div className="modal-background" onClick={onErrorDismiss}></div>
+          <div className="modal-card">
+            <header className="modal-card-head">
+              <p className="modal-card-title">Error</p>
+              <button
+                className="delete"
+                aria-label="close"
+                onClick={onErrorDismiss}
+              ></button>
+            </header>
+            <section className="modal-card-body">
+              <p>{error}</p>
+            </section>
+            <footer className="modal-card-foot">
+              <button className="button is-primary" onClick={onErrorDismiss}>
+                OK
+              </button>
+            </footer>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

@@ -1,12 +1,4 @@
-import React from 'react';
-import { 
-  Card, 
-  Columns, 
-  Form, 
-  Button, 
-  Loader,
-  Icon 
-} from 'react-bulma-components';
+import React from "react";
 
 interface Parameter {
   key: string;
@@ -36,7 +28,7 @@ const ParameterCard: React.FC<ParameterCardProps> = ({
   onRunClustering,
   isLoading,
   disabled,
-  buttonText = 'Run Clustering'
+  buttonText = "Run Clustering",
 }) => {
   const getColumnSize = () => {
     const totalParams = parameters.length + 1;
@@ -48,18 +40,26 @@ const ParameterCard: React.FC<ParameterCardProps> = ({
   const columnSize = getColumnSize();
 
   return (
-    <Card>
-      <Card.Header>
-        <Card.Header.Title>Configuration</Card.Header.Title>
-      </Card.Header>
-      <Card.Content>
-        <Columns multiline>
-          {/* Dataset Selector */}
-          <Columns.Column size={columnSize}>
-            <Form.Field>
-              <Form.Label>Dataset</Form.Label>
-              <Form.Control>
-                <Form.Select
+    <div>
+
+
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">Options</p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            
+
+          <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Dataset</label>
+        </div>
+        <div class="field-body">
+          <div class="field ">
+            <div class="control is-expanded">
+              <div class="select is-fullwidth">
+                <select
                   value={selectedDataset}
                   onChange={(e) => onDatasetChange(e.target.value)}
                 >
@@ -68,18 +68,23 @@ const ParameterCard: React.FC<ParameterCardProps> = ({
                       {dataset}
                     </option>
                   ))}
-                </Form.Select>
-              </Form.Control>
-            </Form.Field>
-          </Columns.Column>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-          {/* Algorithm Parameters */}
-          {parameters.map((param) => (
-            <Columns.Column key={param.key} size={columnSize}>
-              <Form.Field>
-                <Form.Label>{param.label}</Form.Label>
-                <Form.Control>
-                  <Form.Select
+      {parameters.map((param) => (
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">{param.label}</label>
+          </div>
+          <div class="field-body">
+            <div class="field is-fullwidth">
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select
                     value={param.value}
                     onChange={(e) => param.onChange(e.target.value)}
                   >
@@ -88,36 +93,37 @@ const ParameterCard: React.FC<ParameterCardProps> = ({
                         {param.optionLabel ? param.optionLabel(option) : option}
                       </option>
                     ))}
-                  </Form.Select>
-                </Form.Control>
-              </Form.Field>
-            </Columns.Column>
-          ))}
-        </Columns>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
 
-        <Button
-          fullwidth
-          color="primary"
-          onClick={onRunClustering}
-          disabled={disabled || isLoading}
-          style={{ marginTop: '16px' }}
-        >
-          {isLoading ? (
-            <>
-              <Loader style={{ marginRight: '8px' }} />
-              {`${buttonText}...`}
-            </>
-          ) : (
-            <>
-              <Icon>
-                <span>▶</span>
-              </Icon>
-              {buttonText}
-            </>
-          )}
-        </Button>
-      </Card.Content>
-    </Card>
+
+          </div>
+        </div>
+        <footer class="card-footer">
+        <div class="card-footer-item">
+              <button
+                onClick={onRunClustering}
+                disabled={disabled || isLoading}
+                class="button is-success is-card-footer-item is-fullwidth"
+              >
+                <span class="icon-text">
+                  <span>{`${buttonText}`}</span>
+                  <span class="icon">▶</span>
+                </span>
+                
+              </button>
+      </div>
+        </footer>
+      </div>
+
+
+      
+    </div>
   );
 };
 

@@ -6,7 +6,6 @@ import ParameterCard from "../components/cards/ParameterCard";
 import DatasetInfoCard from "../components/cards/DatasetInfoCard";
 import VisualizationCard from "../components/cards/VisualizationCard";
 import AlgorithmInfoCard from "../components/cards/AlgorithmInfoCard";
-import { Columns } from "react-bulma-components";
 
 interface GMMResult {
   dataset: string;
@@ -184,36 +183,36 @@ const GMMPage: React.FC = () => {
 
   return (
     <AlgorithmPageLayout
-      title="GMM Clustering"
-      shortTitle="GMM"
-      error={error}
-      onErrorDismiss={() => setError(null)}
-    >
-      <Columns>
-        <Columns.Column size={8}>
-          <ParameterCard
-            availableDatasets={availableDatasets}
-            selectedDataset={selectedDataset}
-            onDatasetChange={setSelectedDataset}
-            parameters={parameters}
-            onRunClustering={handleRunClustering}
-            isLoading={loadingClustering}
-            disabled={loading}
-            buttonText="Run GMM"
-          />
-        </Columns.Column>
+        title={algorithmInfo.algorithmName}
+        shortTitle=""
+        error={error}
+        onErrorDismiss={() => setError(null)}
+      >
+        <div class="columns">
+          <div class="column">
+            <ParameterCard
+              availableDatasets={availableDatasets}
+              selectedDataset={selectedDataset}
+              onDatasetChange={setSelectedDataset}
+              parameters={parameters}
+              onRunClustering={handleRunClustering}
+              isLoading={loadingClustering}
+              disabled={loading}
+              buttonText={algorithmInfo.algorithmName}
+            />
+          </div>
 
-        <Columns.Column size={4}>
-          <DatasetInfoCard
-            dataset={dataset}
-            loading={loading}
-            statusContent={statusContent}
-          />
-        </Columns.Column>
-      </Columns>
+          <div class="column">
+            <DatasetInfoCard
+              dataset={dataset}
+              loading={loading}
+              statusContent={statusContent}
+            />
+          </div>
+        </div>
 
-      <Columns>
-        <Columns.Column size={8}>
+        <div class="columns">
+          <div class="column">
           {dataset && !loading && (
             <VisualizationCard
               loading={loadingClustering}
@@ -228,13 +227,14 @@ const GMMPage: React.FC = () => {
               hasResults={!!clusteringResult}
             />
           )}
-        </Columns.Column>
-        
-        <Columns.Column size={4}>
-          <AlgorithmInfoCard {...algorithmInfo} />
-        </Columns.Column>
-      </Columns>
-    </AlgorithmPageLayout>
+          </div>
+
+          <div class="column">
+            <AlgorithmInfoCard {...algorithmInfo} />
+          </div>
+        </div>
+      </AlgorithmPageLayout>
+
   );
 };
 

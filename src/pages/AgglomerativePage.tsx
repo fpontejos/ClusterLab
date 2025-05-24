@@ -6,8 +6,9 @@ import ParameterCard from "../components/cards/ParameterCard";
 import DatasetInfoCard from "../components/cards/DatasetInfoCard";
 import VisualizationCard from "../components/cards/VisualizationCard";
 import AlgorithmInfoCard from "../components/cards/AlgorithmInfoCard";
-import { Columns } from "react-bulma-components";
 
+
+// const { Input, Field, Control, Label, Select } = Form;
 interface AgglomerativeResult {
   dataset: string;
   algorithm: string;
@@ -27,6 +28,7 @@ const AgglomerativePage: React.FC = () => {
   const [loadingClustering, setLoadingClustering] = useState<boolean>(false);
 
   const availableDatasets = getAvailableDatasets();
+  const [subject, setSubject] = useState(""); // delete
 
   // Parameter configuration
   const parameters = [
@@ -167,58 +169,59 @@ const AgglomerativePage: React.FC = () => {
   };
 
   return (
-    <AlgorithmPageLayout
-      title="Agglomerative Clustering"
-      shortTitle="Agglomerative"
-      error={error}
-      onErrorDismiss={() => setError(null)}
-    >
-
-      <Columns>
-        <Columns.Column size={8}>
-          <ParameterCard
-            availableDatasets={availableDatasets}
-            selectedDataset={selectedDataset}
-            onDatasetChange={setSelectedDataset}
-            parameters={parameters}
-            onRunClustering={handleRunClustering}
-            isLoading={loadingClustering}
-            disabled={loading}
-            buttonText="Run Agglomerative"
-          />
-        </Columns.Column>
-
-        <Columns.Column size={4}>
-          <DatasetInfoCard
-            dataset={dataset}
-            loading={loading}
-            statusContent={statusContent}
-          />
-        </Columns.Column>
-      </Columns>
-
-      <Columns>
-        <Columns.Column size={8}>
-          {dataset && !loading && (
-            <VisualizationCard
-              loading={loadingClustering}
-              points={dataset.points.map((p) => [p.x, p.y])}
-              clusters={clusteringResult?.labels}
-              title={
-                clusteringResult
-                  ? `${dataset.name} - Agglomerative (k=${nClusters}, ${linkage})`
-                  : `${dataset.name} Dataset`
-              }
-              hasResults={!!clusteringResult}
+    <div className="algorithm-page">
+      <AlgorithmPageLayout
+        title={algorithmInfo.algorithmName}
+        shortTitle=""
+        error={error}
+        onErrorDismiss={() => setError(null)}
+      >
+        <div class="columns">
+          <div class="column">
+            <ParameterCard
+              availableDatasets={availableDatasets}
+              selectedDataset={selectedDataset}
+              onDatasetChange={setSelectedDataset}
+              parameters={parameters}
+              onRunClustering={handleRunClustering}
+              isLoading={loadingClustering}
+              disabled={loading}
+              buttonText={algorithmInfo.algorithmName}
             />
-          )}
-        </Columns.Column>
+          </div>
 
-        <Columns.Column size={4}>
-          <AlgorithmInfoCard {...algorithmInfo} />
-        </Columns.Column>
-      </Columns>
-    </AlgorithmPageLayout>
+          <div class="column">
+            <DatasetInfoCard
+              dataset={dataset}
+              loading={loading}
+              statusContent={statusContent}
+            />
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            {dataset && !loading && (
+              <VisualizationCard
+                loading={loadingClustering}
+                points={dataset.points.map((p) => [p.x, p.y])}
+                clusters={clusteringResult?.labels}
+                title={
+                  clusteringResult
+                    ? `${dataset.name} - Agglomerative (k=${nClusters}, ${linkage})`
+                    : `${dataset.name} Dataset`
+                }
+                hasResults={!!clusteringResult}
+              />
+            )}
+          </div>
+
+          <div class="column">
+            <AlgorithmInfoCard {...algorithmInfo} />
+          </div>
+        </div>
+      </AlgorithmPageLayout>
+    </div>
   );
 };
 

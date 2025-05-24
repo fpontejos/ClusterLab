@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card, Content, Loader } from 'react-bulma-components';
 import type { Dataset } from '../../types';
 
 interface DatasetInfoCardProps {
@@ -15,14 +14,15 @@ const DatasetInfoCard: React.FC<DatasetInfoCardProps> = ({
 }) => {
   if (loading) {
     return (
-      <Card>
-        <Card.Content>
-          <div style={{ textAlign: 'center', padding: '20px' }}>
-            <Loader />
-            <p>Loading dataset...</p>
+      <div class="card">
+        <div class="card-content">
+          <div class="content">
+            <div class="skeleton-block">
+            </div>
           </div>
-        </Card.Content>
-      </Card>
+        </div>
+      </div>
+      
     );
   }
 
@@ -31,21 +31,21 @@ const DatasetInfoCard: React.FC<DatasetInfoCardProps> = ({
   }
 
   return (
-    <Card>
-      <Card.Header>
-        <Card.Header.Title>Dataset Information</Card.Header.Title>
-      </Card.Header>
-      <Card.Content>
-        <Content>
+    <div class="card">
+      <header class="card-header">
+        <p class="card-header-title">Dataset Information</p>
+      </header>
+      <div class="card-content">
+        <div class="content">
           <h3>{dataset.name}</h3>
           <p><strong>Size:</strong> {dataset.points.length} data points</p>
           {dataset.description && (
             <p><strong>Description:</strong> {dataset.description}</p>
           )}
           {statusContent}
-        </Content>
-      </Card.Content>
-    </Card>
+        </div>
+      </div>
+    </div>
   );
 };
 

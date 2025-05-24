@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card, Content } from 'react-bulma-components';
 
 interface AlgorithmInfoCardProps {
   algorithmName: string;
@@ -17,13 +16,14 @@ const AlgorithmInfoCard: React.FC<AlgorithmInfoCardProps> = ({
   additionalInfo
 }) => {
   return (
-    <Card>
-      <Card.Header>
-        <Card.Header.Title>{algorithmName}</Card.Header.Title>
-      </Card.Header>
-      <Card.Content>
-        <Content>
-          <p>{description}</p>
+
+    <div class="card">
+  <header class="card-header">
+    <p class="card-header-title">{algorithmName}</p>
+  </header>
+  <div class="card-content">
+    <div class="content">
+    <p>{description}</p>
           
           <p><strong>Key Features:</strong></p>
           <ul>
@@ -46,9 +46,12 @@ const AlgorithmInfoCard: React.FC<AlgorithmInfoCardProps> = ({
           )}
 
           {additionalInfo}
-        </Content>
-      </Card.Content>
-    </Card>
+    </div>
+  </div>
+</div>
+
+
+
   );
 };
 

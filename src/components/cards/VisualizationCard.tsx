@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card, Loader } from 'react-bulma-components';
 import ScatterPlot from './../ScatterPlot';
 
 interface VisualizationCardProps {
@@ -22,29 +21,32 @@ const VisualizationCard: React.FC<VisualizationCardProps> = ({
   height = 400
 }) => {
   return (
-    <Card>
-      <Card.Header>
-        <Card.Header.Title>
+
+    <div class="card">
+      <header class="card-header">
+        <p class="card-header-title">
           {hasResults ? 'Clustering Results' : 'Data Visualization'}
-        </Card.Header.Title>
-      </Card.Header>
-      <Card.Content>
-        {loading ? (
-          <div style={{ textAlign: 'center', padding: '40px' }}>
-            <Loader />
-            <p>Loading clustering results...</p>
-          </div>
-        ) : (
-          <ScatterPlot 
-            points={points}
-            clusters={clusters}
-            centroids={centroids}
-            title={title}
-            height={height}
-          />
-        )}
-      </Card.Content>
-    </Card>
+        </p>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '40px' }}>
+              <Loader />
+              <p>Loading clustering results...</p>
+            </div>
+          ) : (
+            <ScatterPlot 
+              points={points}
+              clusters={clusters}
+              centroids={centroids}
+              title={title}
+              height={height}
+            />
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 

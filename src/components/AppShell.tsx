@@ -1,54 +1,86 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link, useLocation, Redirect } from 'react-router-dom';
-import { 
-  Navbar, 
-  Section, 
-  Container, 
-  Tabs, 
-  Title 
-} from 'react-bulma-components';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useLocation,
+  Redirect,
+} from "react-router-dom";
 
-import KMeansPage from '../pages/KMeansPage';
-import DBSCANPage from '../pages/DBSCANPage';
-import AgglomerativePage from '../pages/AgglomerativePage';
-import MeanShiftPage from '../pages/MeanShiftPage';
-import GMMPage from '../pages/GMMPage';
-import AppNavbar from './AppNavbar';
+import KMeansPage from "../pages/KMeansPage";
+import DBSCANPage from "../pages/DBSCANPage";
+import AgglomerativePage from "../pages/AgglomerativePage";
+import MeanShiftPage from "../pages/MeanShiftPage";
+import GMMPage from "../pages/GMMPage";
+// import AppNavbar from './AppNavbar';
 
-const tabs = [
-  { path: '/kmeans', label: 'K-Means', icon: 'K' },
-  { path: '/dbscan', label: 'DBSCAN', icon: 'D' },
-  { path: '/agglomerative', label: 'Agglomerative', icon: 'A' },
-  { path: '/meanshift', label: 'Mean Shift', icon: 'M' },
-  { path: '/gmm', label: 'GMM', icon: 'G' }
+const navlinks = [
+  { path: "/kmeans", label: "K-Means", icon: "K" },
+  { path: "/dbscan", label: "DBSCAN", icon: "D" },
+  { path: "/agglomerative", label: "Agglomerative", icon: "A" },
+  { path: "/meanshift", label: "Mean Shift", icon: "M" },
+  { path: "/gmm", label: "GMM", icon: "G" },
 ];
 
-const TabNavigation: React.FC = () => {
+const AppNavigation: React.FC = () => {
   const location = useLocation();
 
   return (
-    <Tabs align="centered" size="large">
-      {tabs.map((tab) => (
-        <Tabs.Tab 
-          key={tab.path} 
-          active={location.pathname === tab.path}
-          renderAs={Link}
-          to={tab.path}
+    <nav className="navbar is-large is-info
+">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://clusterlab.netlify.app">
+          ClusterLab
+        </a>
+
+        <a
+          role="button"
+          class="navbar-burger"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="navbarBasicExample"
         >
-          <span style={{ marginRight: '0.5rem' }}>{tab.icon}</span>
-          {tab.label}
-        </Tabs.Tab>
-      ))}
-    </Tabs>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div className="navbar-menu">
+        <div className="navbar-start">
+          {navlinks.map((navlink) => (
+            <div 
+            className={`navbar-item is-tab is-hoverable ${
+            location.pathname === navlink.path ? "is-active " : ""
+          }`}
+
+              >
+              <a
+                href={navlink.path}
+                className={`navbar-link ${
+                  location.pathname === navlink.path ? "is-active " : ""
+                }`}
+              >
+                {/* <span className="icon is-small">
+                <span>{navlink.icon}</span>
+              </span> */}
+                <span>{navlink.label}</span>
+              </a>
+              </div>
+            
+          ))}
+        </div>
+      </div>
+    </nav>
   );
 };
-
 const AppShell: React.FC = () => {
   return (
     <div className="app-shell">
       <Router>
-
-      <AppNavbar />
+        <AppNavigation />
 
         <main className="main-content">
           <Switch>

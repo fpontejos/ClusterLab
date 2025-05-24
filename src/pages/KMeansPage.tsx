@@ -6,7 +6,6 @@ import ParameterCard from "../components/cards/ParameterCard";
 import DatasetInfoCard from "../components/cards/DatasetInfoCard";
 import VisualizationCard from "../components/cards/VisualizationCard";
 import AlgorithmInfoCard from "../components/cards/AlgorithmInfoCard";
-import { Columns } from "react-bulma-components";
 
 interface KMeansResult {
   dataset: string;
@@ -145,46 +144,40 @@ const KMeansPage: React.FC = () => {
   };
 
   return (
+
+
+
     <AlgorithmPageLayout
-      title="K-Means Clustering"
-      shortTitle="K-Means"
-      error={error}
-      onErrorDismiss={() => setError(null)}
-    >
-      <Hero color="light" size="small">
-        <Hero.Body>
-          <Container>
-            {algorithmInfo}
-            {shortTitle}
-          </Container>
-        </Hero.Body>
-      </Hero>
+        title={algorithmInfo.algorithmName}
+        shortTitle=""
+        error={error}
+        onErrorDismiss={() => setError(null)}
+      >
+        <div class="columns">
+          <div class="column">
+            <ParameterCard
+              availableDatasets={availableDatasets}
+              selectedDataset={selectedDataset}
+              onDatasetChange={setSelectedDataset}
+              parameters={parameters}
+              onRunClustering={handleRunClustering}
+              isLoading={loadingClustering}
+              disabled={loading}
+              buttonText={algorithmInfo.algorithmName}
+            />
+          </div>
 
-      <Columns>
-        <Columns.Column size={8}>
-          <ParameterCard
-            availableDatasets={availableDatasets}
-            selectedDataset={selectedDataset}
-            onDatasetChange={setSelectedDataset}
-            parameters={parameters}
-            onRunClustering={handleRunClustering}
-            isLoading={loadingClustering}
-            disabled={loading}
-            buttonText="Run K-Means"
-          />
-        </Columns.Column>
+          <div class="column">
+            <DatasetInfoCard
+              dataset={dataset}
+              loading={loading}
+              statusContent={statusContent}
+            />
+          </div>
+        </div>
 
-        <Columns.Column size={4}>
-          <DatasetInfoCard
-            dataset={dataset}
-            loading={loading}
-            statusContent={statusContent}
-          />
-        </Columns.Column>
-      </Columns>
-
-      <Columns>
-        <Columns.Column size={8}>
+        <div class="columns">
+          <div class="column">
           {dataset && !loading && (
             <VisualizationCard
               loading={loadingClustering}
@@ -199,13 +192,16 @@ const KMeansPage: React.FC = () => {
               hasResults={!!clusteringResult}
             />
           )}
-        </Columns.Column>
+          </div>
 
-        <Columns.Column size={4}>
-          <AlgorithmInfoCard {...algorithmInfo} />
-        </Columns.Column>
-      </Columns>
-    </AlgorithmPageLayout>
+          <div class="column">
+            <AlgorithmInfoCard {...algorithmInfo} />
+          </div>
+        </div>
+      </AlgorithmPageLayout>
+
+
+
   );
 };
 
